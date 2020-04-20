@@ -1,10 +1,25 @@
-version: '3.7'
+version: '3'
 services:
   pgpool:
-    image: rueian/pgpool:3.7.5-debian9
+    image: bitnami/pgpool:4
+    volumes:
+      - "./share:/share"
+      - "./pgpool.conf:/etc/pgpool/pgpool.conf"
+    environment:
+      - PGPOOL_BACKEND_NODES=0:pg-0:5432,1:pg-1:5432
+      - PGPOOL_SR_CHECK_USER=customuser
+      - PGPOOL_SR_CHECK_PASSWORD=custompassword
+      - PGPOOL_ENABLE_LDAP=no
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=adminpassword
+      - PGPOOL_ADMIN_USERNAME=admin
+      - PGPOOL_ADMIN_PASSWORD=adminpassword
+      - PGPOOL_ENABLE_LOAD_BALANCING=yes
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost", "||", "exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432:5432"
-    volumes:
-      - ./pgpool.conf:/etc/pgpool/pgpool.conf
-  pg0:
-    image: postgres:10-alpine
+    restart: "always"

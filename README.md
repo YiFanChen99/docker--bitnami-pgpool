@@ -1,22 +1,16 @@
-# pgpool-docker
+# docker--pgpool
 
-PGPool2 3.7.5 的 debian9 docker image
+## Using docker-compose with bitnami/pgpool:4
 
-## 運行
+1. Get postgresql node(s) up and ready
+1. Config environments on `docker-compose.yml`
+1. Config `pgpool.conf` if needed
+1. ` docker-compose up -d `
 
-```
-docker run -it --rm rueian/pgpool:3.7.5-debian9
-```
+or
 
-掛入 config 的方法請參考 docker-compose.yml 與下方說明
+## Using Dockerfile to build an image and run
 
-## docker-compose 測試方法:
-
-docker-compose 僅供示範測試
-
-```
-docker-compose up -d
-```
-
-pgpool 需要三個設定檔分別是 pgpool.conf, pcp.conf, pool_hba.conf 可在執行時掛入 /etc/pgpool/ 底下，
-會由 docker-entrypoint.sh 將三個檔案複製到 /etc/ 底下給 pgpool 執行檔載入
+1. Config `pgpool.conf`, `pool_hba.conf`, and `pool_passwd` if needed
+1. ` docker build -t $IMG_NAME ./ `
+1. ` docker run -it --rm $IMG_NAME `

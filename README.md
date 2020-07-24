@@ -1,4 +1,4 @@
-# docker--pgpool
+# docker--bitnami-pgpool
 
 ## Using docker-compose with bitnami/pgpool:4
 
